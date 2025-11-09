@@ -1,6 +1,152 @@
-/* Reuse shared root styles */
-@import url('../styles.css');
+/* -------------------------------------------------- */
+/*  Journal – standalone sheet (inherits root tokens) */
+/* -------------------------------------------------- */
 
-/* Overrides for standalone journal (if needed) */
-.top-nav a.active { background: #fff; color: var(--primary); border-color: var(--primary); }
-#journal { padding: 1.5rem; }
+/* 1.  mood-chart container */
+#moodChart {
+  width: 100% !important;
+  height: 220px !important;
+  max-height: 320px;
+  margin-bottom: 1.5rem;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, .45);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, .06);
+}
+
+/* 2.  mood-picker bar */
+.mood-picker {
+  display: flex;
+  gap: .5rem;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.mood-btn {
+  flex: 1 1 0;
+  min-width: 0;
+  padding: .75rem .5rem;
+  border: 2px solid transparent;
+  border-radius: var(--radius, 1.5rem);
+  background: #fff;
+  color: var(--gray, #6c757d);
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition, all .3s cubic-bezier(.4, 0, .2, 1));
+  box-shadow: 0 2px 6px rgba(0, 0, 0, .05);
+}
+
+.mood-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, .08);
+}
+
+.mood-btn:active {
+  transform: translateY(0);
+}
+
+.mood-btn.active,
+.mood-btn:focus-visible {
+  border-color: var(--primary, #ff6b9d);
+  color: var(--primary);
+  background: rgba(255, 107, 157, .08);
+}
+
+/* 3.  entries list */
+#entries {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.journal-entry {
+  background: #fff;
+  padding: 1.25rem 1.5rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, .05);
+  border-left: 4px solid var(--secondary, #4ecdc4);
+}
+
+.journal-entry h4 {
+  margin: 0 0 .5rem;
+  color: var(--primary);
+  font-size: 1rem;
+}
+
+.journal-entry p {
+  margin: 0;
+  color: var(--dark, #1a1a1a);
+  line-height: 1.5;
+}
+
+/* 4.  “+ New Entry” button */
+.add-entry {
+  display: block;
+  width: 100%;
+  padding: 1rem;
+  border: 2px dashed var(--primary);
+  border-radius: var(--radius, 1.5rem);
+  background: transparent;
+  color: var(--primary);
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.add-entry:hover {
+  background: var(--primary);
+  color: #fff;
+}
+
+/* 5.  dark-mode overrides */
+[data-theme="dark"] #moodChart {
+  background: rgba(30, 30, 30, .45);
+  filter: brightness(1.05) contrast(1.05);
+}
+
+[data-theme="dark"] .mood-btn {
+  background: var(--dark-surface, #1e1e1e);
+  color: var(--dark-muted, #b0bec5);
+}
+
+[data-theme="dark"] .mood-btn.active,
+[data-theme="dark"] .mood-btn:focus-visible {
+  border-color: var(--dark-primary, #ff8a80);
+  color: var(--dark-primary);
+  background: rgba(255, 138, 128, .12);
+}
+
+[data-theme="dark"] .journal-entry {
+  background: var(--dark-surface, #1e1e1e);
+  border-left-color: var(--dark-secondary, #80deea);
+}
+
+[data-theme="dark"] .journal-entry p {
+  color: var(--dark-text, #fff);
+}
+
+[data-theme="dark"] .add-entry {
+  border-color: var(--dark-primary);
+  color: var(--dark-primary);
+}
+
+[data-theme="dark"] .add-entry:hover {
+  background: var(--dark-primary);
+  color: var(--dark-bg, #121212);
+}
+
+/* 6.  subtle page spacing */
+#journal {
+  padding: 1.5rem;
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+/* 7.  motion reduction */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}

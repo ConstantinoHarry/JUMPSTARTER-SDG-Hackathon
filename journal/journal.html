@@ -1,35 +1,51 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="light" data-lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>AIIGood – Journal</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../styles.css" />
-  <!-- Chart.js for mood charts (shared asset) -->
+
+  <!-- fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet"/>
+
+  <!-- shared stylesheet -->
+  <link rel="stylesheet" href="../styles.css"/>
+
+  <!-- Chart.js (shared asset) -->
   <script src="../assets/chartjs.min.js"></script>
+
+  <!-- journal-specific stylesheet -->
+  <link rel="stylesheet" href="journal-styles.css"/>
 </head>
+
 <body>
-  <!-- Top Nav to toggle between pages -->
+  <!-- top navigation -->
   <nav class="top-nav">
     <a href="../index.html">Interface</a>
     <a href="../chatbot/chatbot.html">Chatbot</a>
     <a href="journal.html" class="active">Journal</a>
   </nav>
 
+  <!-- hero -->
   <header class="hero">
     <div class="container">
       <div class="team-badge">Team: AIIGood</div>
       <h1>Wellness Journal</h1>
-      <p data-lang-en="Track your mood and reflections." data-lang-yue="記錄你嘅心情同反思。">Track your mood and reflections.</p>
+      <p data-lang-en="Track your mood and reflections." data-lang-yue="記錄你嘅心情同反思。">
+        Track your mood and reflections.
+      </p>
     </div>
   </header>
 
+  <!-- main app -->
   <section class="app">
     <div id="journal" aria-labelledby="journal-title">
       <h2 id="journal-title" class="visually-hidden">Journal</h2>
+
+      <!-- mood chart -->
       <canvas id="moodChart" height="220"></canvas>
 
+      <!-- mood picker -->
       <div class="mood-picker" role="group" aria-label="Pick your mood">
         <button class="mood-btn" data-mood="1" aria-label="Mood 1 of 5">Bad</button>
         <button class="mood-btn" data-mood="2" aria-label="Mood 2 of 5">Sad</button>
@@ -38,10 +54,13 @@
         <button class="mood-btn" data-mood="5" aria-label="Mood 5 of 5">Great</button>
       </div>
 
+      <!-- entries list -->
       <div id="entries">
         <div class="journal-entry">
           <h4>Today – <span id="today-date"></span></h4>
-          <p data-lang-en="Had a good day, finished project." data-lang-yue="今日過得唔錯，完成咗個project。">Had a good day, finished project.</p>
+          <p data-lang-en="Had a good day, finished project." data-lang-yue="今日過得唔錯，完成咗個project。">
+            Had a good day, finished project.
+          </p>
         </div>
       </div>
 
@@ -49,6 +68,7 @@
     </div>
   </section>
 
-  <script src="script.js"></script>
+  <!-- journal logic -->
+  <script src="journal.js"></script>
 </body>
 </html>
