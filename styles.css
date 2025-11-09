@@ -283,6 +283,23 @@ h3.sub { font-size: 1.4rem; margin: 1.5rem 0 .75rem; color: var(--primary); }
 [data-theme="dark"] .trend.up { color: #90ee90 !important; }
 [data-theme="dark"] canvas { filter: brightness(1.05) contrast(1.05); }
 
+/* Make top nav and floating controls adapt to dark theme */
+[data-theme="dark"] .top-nav {
+  background: rgba(20,20,20,0.6);
+  backdrop-filter: blur(8px);
+}
+[data-theme="dark"] .top-nav a {
+  color: var(--dark-text);
+  border-color: rgba(255,255,255,0.04);
+}
+[data-theme="dark"] .top-nav a.active { background: rgba(255,255,255,0.06); color: var(--dark-primary); border-color: var(--dark-primary); }
+
+[data-theme="dark"] .floating-controls button {
+  background: var(--dark-surface);
+  border-color: rgba(255,255,255,0.04);
+  color: var(--dark-text);
+}
+
 /* Motion reduction */
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; animation: none !important; }
