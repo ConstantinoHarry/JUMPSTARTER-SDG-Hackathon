@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" data-lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIIGood - Wellness Task Manager</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="task_manager.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+    <!-- Top Navigation -->
+    <nav class="top-nav">
+        <a href="../index.html">HOME</a>
+        <a href="../chatbot/chatbot.html">Chatbot</a>
+        <a href="../journal/journal.html">Journal</a>
+        <a href="task_manager.html" class="active">Task Manager</a>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="container">
+            <div class="team-badge">Team: AIIGood</div>
+            <h1>Wellness Task Manager</h1>
+            <p>Build healthy habits, track your progress, and improve your mental wellbeing one task at a time</p>
+        </div>
+    </header>
+
+    <!-- Main App -->
+    <section class="app">
+        <div class="container task-manager-container">
+            
+            <!-- Quick Stats Dashboard -->
+            <div class="stats-dashboard">
+                <div class="stat-card">
+                    <div class="stat-icon">📊</div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="completionRate">0%</div>
+                        <div class="stat-label">Weekly Completion</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🔥</div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="currentStreak">0</div>
+                        <div class="stat-label">Day Streak</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">⭐</div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="totalPoints">0</div>
+                        <div class="stat-label">Wellness Points</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">😊</div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="moodImpact">+0%</div>
+                        <div class="stat-label">Mood Improvement</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content Grid -->
+            <div class="task-grid">
+                
+                <!-- Left Column: Task Input & AI Recommendations -->
+                <div class="task-column">
+                    <!-- Add Task Card -->
+                    <div class="task-card">
+                        <h3>Add New Wellness Task</h3>
+                        <form id="taskForm" class="task-form">
+                            <div class="form-group">
+                                <label for="taskTitle">Task Description</label>
+                                <input type="text" id="taskTitle" placeholder="e.g., 10-minute meditation, Go for a walk..." required>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="taskCategory">Category</label>
+                                    <select id="taskCategory" required>
+                                        <option value="">Select category</option>
+                                        <option value="physical">Physical Health</option>
+                                        <option value="mental">Mental Health</option>
+                                        <option value="social">Social Connection</option>
+                                        <option value="productivity">Productivity</option>
+                                        <option value="selfcare">Self Care</option>
+                                        <option value="mindfulness">Mindfulness</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="taskDifficulty">Difficulty</label>
+                                    <select id="taskDifficulty" required>
+                                        <option value="1">⭐ Easy</option>
+                                        <option value="2">⭐⭐ Moderate</option>
+                                        <option value="3">⭐⭐⭐ Challenging</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="taskDueDate">Due Date</label>
+                                    <input type="date" id="taskDueDate" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="taskPriority">Priority</label>
+                                    <select id="taskPriority" required>
+                                        <option value="low">Low</option>
+                                        <option value="medium">Medium</option>
+                                        <option value="high">High</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="taskNotes">Notes (Optional)</label>
+                                <textarea id="taskNotes" placeholder="Any additional details or feelings about this task..." rows="3"></textarea>
+                            </div>
+
+                            <button type="submit" class="btn-primary">
+                                <span class="btn-icon">➕</span>
+                                Add Wellness Task
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- AI Recommendations -->
+                    <div class="task-card ai-recommendations">
+                        <div class="card-header">
+                            <h3>🤖 AI Wellness Suggestions</h3>
+                            <button class="btn-refresh" id="refreshAI">🔄</button>
+                        </div>
+                        <div class="recommendations-list" id="aiSuggestions">
+                            <!-- AI suggestions will be populated here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Task List & Analytics -->
+                <div class="task-column">
+                    <!-- Task Filters -->
+                    <div class="filters-card">
+                        <div class="filter-group">
+                            <button class="filter-btn active" data-filter="all">All Tasks</button>
+                            <button class="filter-btn" data-filter="pending">Pending</button>
+                            <button class="filter-btn" data-filter="completed">Completed</button>
+                            <button class="filter-btn" data-filter="overdue">Overdue</button>
+                        </div>
+                        <div class="sort-group">
+                            <select id="taskSort">
+                                <option value="dueDate">Sort by Due Date</option>
+                                <option value="priority">Sort by Priority</option>
+                                <option value="difficulty">Sort by Difficulty</option>
+                                <option value="category">Sort by Category</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Task List -->
+                    <div class="task-list-card">
+                        <div class="card-header">
+                            <h3>Your Wellness Tasks</h3>
+                            <span class="task-count" id="taskCount">0 tasks</span>
+                        </div>
+                        <div class="task-list" id="taskList">
+                            <!-- Tasks will be populated here -->
+                        </div>
+                    </div>
+
+                    <!-- Progress Analytics -->
+                    <div class="analytics-card">
+                        <h3>📈 Your Progress</h3>
+                        <div class="progress-charts">
+                            <div class="chart-container">
+                                <canvas id="completionChart" height="200"></canvas>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="categoryChart" height="200"></canvas>
+                            </div>
+                        </div>
+                        
+                        <div class="insights-section">
+                            <h4>AI Insights</h4>
+                            <div class="insight" id="mainInsight">
+                                Start completing tasks to see personalized insights!
+                            </div>
+                            <div class="insight-stats">
+                                <div class="insight-stat">
+                                    <span class="stat-name">Productivity Score</span>
+                                    <span class="stat-value" id="productivityScore">0</span>
+                                </div>
+                                <div class="insight-stat">
+                                    <span class="stat-name">Wellness Balance</span>
+                                    <span class="stat-value" id="wellnessBalance">0%</span>
+                                </div>
+                                <div class="insight-stat">
+                                    <span class="stat-name">Consistency</span>
+                                    <span class="stat-value" id="consistencyScore">0%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Daily Check-in -->
+            <div class="checkin-card">
+                <div class="checkin-header">
+                    <h3>🌅 Daily Well-being Check-in</h3>
+                    <span class="checkin-status" id="checkinStatus">Not completed today</span>
+                </div>
+                <div class="checkin-content">
+                    <div class="mood-checkin">
+                        <label>How are you feeling today?</label>
+                        <div class="mood-options">
+                            <button class="mood-option" data-mood="1" data-emoji="😢">Very Low</button>
+                            <button class="mood-option" data-mood="2" data-emoji="😔">Low</button>
+                            <button class="mood-option" data-mood="3" data-emoji="😐">Neutral</button>
+                            <button class="mood-option" data-mood="4" data-emoji="😊">Good</button>
+                            <button class="mood-option" data-mood="5" data-emoji="😄">Great</button>
+                        </div>
+                    </div>
+                    <div class="energy-level">
+                        <label>Energy Level</label>
+                        <div class="energy-slider">
+                            <input type="range" id="energyLevel" min="1" max="10" value="5">
+                            <div class="energy-labels">
+                                <span>😴 Low</span>
+                                <span>⚡ High</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn-primary" id="submitCheckin">Complete Check-in</button>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Floating Controls -->
+    <div class="floating-controls" role="group" aria-label="Quick settings">
+        <button class="lang-toggle active" data-lang="en" aria-label="English" aria-pressed="true" title="English">
+            <svg viewBox="0 0 60 30" aria-hidden="true" focusable="false"><rect width="60" height="30" rx="4" fill="#fff"/><rect width="30" height="30" fill="#C60C30"/><path d="M0 0l60 30M60 0L0 30" stroke="#FFF" stroke-width="4"/><path d="M0 0l60 30M60 0L0 30" stroke="#C60C30" stroke-width="2"/></svg>
+        </button>
+        <button class="lang-toggle" data-lang="yue" aria-label="Cantonese" aria-pressed="false" title="Cantonese">
+            <svg viewBox="0 0 60 30" aria-hidden="true" focusable="false"><rect width="60" height="30" rx="4" fill="#DE2910"/><path d="M30 5l3.5 10h-7z" fill="#FFF"/><path d="M20 10l3 9h-6z" fill="#FFF"/><path d="M40 10l-3 9h6z" fill="#FFF"/><path d="M25 15l2.5 7.5h-5z" fill="#FFF"/><path d="M35 15l-2.5 7.5h5z" fill="#FFF"/></svg>
+        </button>
+        <button class="theme-toggle" id="themeToggle" title="Toggle theme">Dark Mode</button>
+    </div>
+
+    <!-- Crisis Button -->
+    <button class="crisis" title="Emergency? Tap for hotline" aria-label="Crisis hotline">
+        Warning
+    </button>
+
+    <script src="task_manager.js"></script>
+    <script src="../script.js"></script>
+</body>
+</html>

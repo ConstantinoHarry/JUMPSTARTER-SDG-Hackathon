@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initLanguage();
   initCounters();
   initCharts();
+  bindLogout();
   bindCrisis();
 });
 
@@ -183,4 +184,23 @@ function bindCrisis() {
       window.location.href = 'tel:+85223892222';
     }
   });
+}
+
+/* LOGOUT */
+function bindLogout() {
+  const btn = document.getElementById('logoutBtn');
+  if (!btn) return;
+  btn.addEventListener('click', () => {
+    logout();
+  });
+}
+
+function logout() {
+  try {
+    localStorage.removeItem('aiigood_user');
+  } catch (e) {
+    console.warn('Failed to remove session:', e);
+  }
+  // Redirect to login page
+  window.location.href = '/login_page/login.html';
 }

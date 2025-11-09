@@ -715,19 +715,39 @@
 }
 
 .quick-action-btn {
-    padding: 0.5rem 1rem;
-    border: 1px solid var(--primary);
-    background: transparent;
-    color: var(--primary);
-    border-radius: 0.5rem;
-    cursor: pointer;
-    font-size: 0.85rem;
-    transition: all 0.2s;
+  padding: 0.55rem 1rem;
+  border: none;
+  /* solid/gradient background for better contrast and visibility */
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary, #4ecdc4) 100%);
+  color: #ffffff;
+  border-radius: 0.6rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: transform 0.14s ease, box-shadow 0.14s ease, opacity 0.14s ease;
+  box-shadow: 0 6px 14px rgba(22, 24, 27, 0.12);
 }
 
 .quick-action-btn:hover {
-    background: var(--primary);
-    color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 26px rgba(22, 24, 27, 0.18);
+  opacity: 0.98;
+}
+
+.quick-action-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 6px 12px rgba(22,24,27,0.12);
+}
+
+.quick-action-btn:focus-visible {
+  outline: 3px solid rgba(255,255,255,0.12);
+  outline-offset: 3px;
+}
+
+/* Dark theme variant: slightly muted gradient to fit dark surfaces */
+[data-theme="dark"] .quick-action-btn {
+  background: linear-gradient(135deg, rgba(255,107,157,0.95) 0%, rgba(78,205,196,0.95) 100%);
+  color: #0f1720;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.45);
 }
 
 /* Dark Mode Enhancements */

@@ -207,6 +207,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initLanguage();
     initJournal();
     setupEventListeners();
+    highlightActiveNav();
 });
 
 /* --------------------------------------------------------------
@@ -227,6 +228,37 @@ function initLanguage() {
             });
         });
     });
+}
+
+/* --------------------------------------------------------------
+   NAV HIGHLIGHT — mark the current page's nav link as active
+   -------------------------------------------------------------- */
+function highlightActiveNav() {
+    try {
+        const links = document.querySelectorAll('nav.top-nav a');
+        const currentPath = window.location.pathname.replace(/\/$/, ''); // normalize
+
+        links.forEach(a => {
+            try {
+                const href = a.getAttribute('href');
+                if (!href) return;
+                const linkUrl = new URL(href, window.location.href);
+                const linkPath = linkUrl.pathname.replace(/\/$/, '');
+
+                if (linkPath === currentPath) {
+                    a.classList.add('active');
+                    a.setAttribute('aria-current', 'page');
+                } else {
+                    a.classList.remove('active');
+                    a.removeAttribute('aria-current');
+                }
+            } catch (err) {
+                // ignore malformed hrefs
+            }
+        });
+    } catch (err) {
+        console.warn('Failed to highlight nav link:', err);
+    }
 }
 
 /* --------------------------------------------------------------
