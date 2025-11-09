@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" data-lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AIIGood – Journal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css" />
+  <!-- Chart.js for mood charts (shared asset) -->
+  <script src="../assets/chartjs.min.js"></script>
+</head>
+<body>
+  <!-- Top Nav to toggle between pages -->
+  <nav class="top-nav">
+    <a href="../index.html">Interface</a>
+    <a href="../chatbot/chatbot.html">Chatbot</a>
+    <a href="journal.html" class="active">Journal</a>
+  </nav>
+
+  <header class="hero">
+    <div class="container">
+      <div class="team-badge">Team: AIIGood</div>
+      <h1>Wellness Journal</h1>
+      <p data-lang-en="Track your mood and reflections." data-lang-yue="記錄你嘅心情同反思。">Track your mood and reflections.</p>
+    </div>
+  </header>
+
+  <section class="app">
+    <div id="journal" aria-labelledby="journal-title">
+      <h2 id="journal-title" class="visually-hidden">Journal</h2>
+      <canvas id="moodChart" height="220"></canvas>
+
+      <div class="mood-picker" role="group" aria-label="Pick your mood">
+        <button class="mood-btn" data-mood="1" aria-label="Mood 1 of 5">Bad</button>
+        <button class="mood-btn" data-mood="2" aria-label="Mood 2 of 5">Sad</button>
+        <button class="mood-btn" data-mood="3" aria-label="Mood 3 of 5">Neutral</button>
+        <button class="mood-btn" data-mood="4" aria-label="Mood 4 of 5">Happy</button>
+        <button class="mood-btn" data-mood="5" aria-label="Mood 5 of 5">Great</button>
+      </div>
+
+      <div id="entries">
+        <div class="journal-entry">
+          <h4>Today – <span id="today-date"></span></h4>
+          <p data-lang-en="Had a good day, finished project." data-lang-yue="今日過得唔錯，完成咗個project。">Had a good day, finished project.</p>
+        </div>
+      </div>
+
+      <button class="add-entry" id="addEntryBtn">+ New Entry</button>
+    </div>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>

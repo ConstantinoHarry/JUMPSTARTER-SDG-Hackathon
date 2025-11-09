@@ -1,0 +1,6 @@
+/* Reuse shared root styles */
+@import url('../styles.css');
+
+/* Overrides for standalone journal (if needed) */
+.top-nav a.active { background: #fff; color: var(--primary); border-color: var(--primary); }
+#journal { padding: 1.5rem; }

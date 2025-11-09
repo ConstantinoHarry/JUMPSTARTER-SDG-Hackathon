@@ -1,0 +1,6 @@
+/* Reuse interface styles */
+@import url('../interface/styles.css');
+
+/* Overrides for standalone chatbot (if needed) */
+#chat { max-height: 70vh; }
+.top-nav a.active { background: #fff; color: var(--primary); border-color: var(--primary); }

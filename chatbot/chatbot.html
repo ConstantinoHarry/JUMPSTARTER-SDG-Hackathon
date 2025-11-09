@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" data-lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AIIGood – Chatbot</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="chatbot/chatbot-styles.css" />
+</head>
+<body>
+  <!-- Top Nav to toggle between pages -->
+  <nav class="top-nav">
+    <a href="../index.html">Interface</a>
+    <a href="chatbot.html" class="active">Chatbot</a>
+    <a href="../journal/journal.html">Journal</a>
+  </nav>
+
+  <header class="hero">
+    <div class="container">
+      <div class="team-badge">Team: AIIGood</div>
+      <h1>AI Wellness Chat</h1>
+      <p data-lang-en="Private, supportive chat." data-lang-yue="私密、支援性對話。">Private, supportive chat.</p>
+    </div>
+  </header>
+
+  <section class="app">
+    <div id="chat" role="log" aria-live="polite">
+      <div class="msg bot" data-lang-en="Hi! I’m your wellness companion. How are you feeling?" data-lang-yue="你好！我是你嘅心理健康助手。你今日感覺點呀？">
+        Hi! I’m your wellness companion. How are you feeling?<span class="time">10:30 AM</span>
+      </div>
+      <div class="typing" aria-hidden="true"><span></span><span></span><span></span></div>
+    </div>
+
+    <div class="input-bar">
+      <input type="text" placeholder="Type a message…" id="msgInput" aria-label="Message input" />
+      <button id="sendBtn" aria-label="Send">Send</button>
+    </div>
+
+    <div class="controls">
+      <button class="lang-toggle active" data-lang="en" aria-pressed="true">ENG</button>
+      <button class="lang-toggle" data-lang="yue" aria-pressed="false">粵語</button>
+      <button class="theme-toggle" id="themeToggle" aria-pressed="false">Dark Mode</button>
+    </div>
+  </section>
+
+  <script src="chatbot-script.js"></script>
+</body>
+</html>
