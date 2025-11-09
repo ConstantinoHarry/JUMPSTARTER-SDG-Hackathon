@@ -1,6 +1,212 @@
-/* Reuse interface styles */
-@import url('../interface/styles.css');
+/* -------------------------------------------------- */
+/*  Chatbot – standalone sheet (inherits root tokens) */
+/* -------------------------------------------------- */
 
-/* Overrides for standalone chatbot (if needed) */
-#chat { max-height: 70vh; }
-.top-nav a.active { background: #fff; color: var(--primary); border-color: var(--primary); }
+/* 1.  chat window */
+#chat {
+  max-height: 70vh;
+  overflow-y: auto;
+  background: rgba(255, 255, 255, .45);
+  backdrop-filter: blur(6px);
+  border-radius: var(--radius, 1.5rem);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, .06);
+  padding: 1rem;
+  margin: 0 auto 1rem;
+  max-width: 680px;
+  display: flex;
+  flex-direction: column;
+  gap: .75rem;
+  scroll-behavior: smooth;
+}
+
+/* 2.  messages */
+.msg {
+  position: relative;
+  max-width: 75%;
+  padding: .75rem 1rem;
+  border-radius: 1rem;
+  line-height: 1.45;
+  font-size: .95rem;
+  animation: fadeIn .3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.msg.bot {
+  align-self: flex-start;
+  background: #fff;
+  color: var(--dark, #1a1a1a);
+  border-bottom-left-radius: .25rem;
+}
+
+.msg.user {
+  align-self: flex-end;
+  background: var(--primary, #ff6b9d);
+  color: #fff;
+  border-bottom-right-radius: .25rem;
+}
+
+/* timestamp */
+.msg .time {
+  display: block;
+  font-size: .7rem;
+  opacity: .6;
+  margin-top: .25rem;
+}
+
+/* 3.  typing indicator */
+.typing {
+  display: flex;
+  gap: .35rem;
+  padding: .75rem 1rem;
+  background: #fff;
+  border-radius: 1rem;
+  border-bottom-left-radius: .25rem;
+  width: fit-content;
+}
+
+.typing span {
+  width: 8px;
+  height: 8px;
+  background: var(--gray, #6c757d);
+  border-radius: 50%;
+  animation: typing 1.4s infinite;
+}
+
+.typing span:nth-child(2) { animation-delay: .2s; }
+.typing span:nth-child(3) { animation-delay: .4s; }
+
+@keyframes typing {
+  0%, 60%, 100% { transform: translateY(0); }
+  30% { transform: translateY(-10px); }
+}
+
+/* 4.  input bar */
+.input-bar {
+  display: flex;
+  gap: .5rem;
+  max-width: 680px;
+  margin: 0 auto 1rem;
+  padding: 0 1rem;
+}
+
+.input-bar input {
+  flex: 1 1 auto;
+  padding: .75rem 1rem;
+  border: 2px solid transparent;
+  border-radius: var(--radius, 1.5rem);
+  background: #fff;
+  font-family: inherit;
+  font-size: 1rem;
+  transition: var(--transition);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, .05);
+}
+
+.input-bar input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(255, 107, 157, .2);
+}
+
+.input-bar button {
+  flex: 0 0 auto;
+  padding: .75rem 1.25rem;
+  border: none;
+  border-radius: var(--radius, 1.5rem);
+  background: var(--primary);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, .1);
+}
+
+.input-bar button:hover {
+  background: var(--secondary, #4ecdc4);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, .12);
+}
+
+/* 5.  controls (lang + theme) */
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: .5rem;
+  margin-bottom: 2rem;
+}
+
+.controls button {
+  padding: .4rem .8rem;
+  border: 1px solid rgba(0, 0, 0, .08);
+  border-radius: .6rem;
+  background: #fff;
+  color: #222;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.controls button.active,
+.controls button:hover {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+}
+
+/* 6.  dark-mode overrides */
+[data-theme="dark"] #chat,
+[data-theme="dark"] .msg.bot,
+[data-theme="dark"] .typing {
+  background: var(--dark-surface, #1e1e1e);
+  color: var(--dark-text, #fff);
+}
+
+[data-theme="dark"] .msg.user {
+  background: var(--dark-primary, #ff8a80);
+  color: var(--dark-bg, #121212);
+}
+
+[data-theme="dark"] .input-bar input {
+  background: var(--dark-surface);
+  color: var(--dark-text);
+  border-color: transparent;
+}
+
+[data-theme="dark"] .input-bar input:focus {
+  border-color: var(--dark-primary);
+  box-shadow: 0 0 0 3px rgba(255, 138, 128, .25);
+}
+
+[data-theme="dark"] .input-bar button {
+  background: var(--dark-primary);
+  color: var(--dark-bg);
+}
+
+[data-theme="dark"] .controls button {
+  background: var(--dark-surface);
+  color: var(--dark-text);
+  border-color: rgba(255, 255, 255, .08);
+}
+
+[data-theme="dark"] .controls button.active,
+[data-theme="dark"] .controls button:hover {
+  background: var(--dark-primary);
+  color: var(--dark-bg);
+  border-color: var(--dark-primary);
+}
+
+/* 7.  motion reduction */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* 8.  page spacing */
+.app {
+  padding: 0 1rem;
+}

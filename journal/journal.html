@@ -11,64 +11,115 @@
   <!-- shared stylesheet -->
   <link rel="stylesheet" href="../styles.css"/>
 
-  <!-- Chart.js (shared asset) -->
-  <script src="../assets/chartjs.min.js"></script>
+  <!-- Pages specific style-->
+   <link rel="stylesheet" href="journal-styles.css"/>
 
-  <!-- journal-specific stylesheet -->
-  <link rel="stylesheet" href="journal-styles.css"/>
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+  <!-- journal-specific stylesheet (optional – we add the few rules inline) -->
+  <style>
+    /* --------------------------------------------------------------
+       Journal-specific CSS (kept tiny – everything else comes from styles.css)
+       -------------------------------------------------------------- */
+    .journal-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; }
+    .journal-header h2 { margin:0; font-size:1.6rem; }
+
+    .mood-picker { display:flex; gap:.5rem; margin:1rem 0; flex-wrap:wrap; justify-content:center; }
+    .mood-btn {
+      width:48px; height:48px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+      background:#eee; cursor:pointer; transition:transform .2s, background .2s;
+      font-weight:600; font-size:.85rem;
+    }
+    .mood-btn:hover { transform:scale(1.1); }
+    .mood-btn.selected { background:var(--primary); color:#fff; }
+
+    .metrics-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(140px,1fr)); gap:.75rem; margin:1.5rem 0; }
+    .metric { background:#f8f9fa; padding:.75rem; border-radius:.6rem; text-align:center; font-size:.9rem; }
+
+    #entriesList { margin-top:1.5rem; }
+    .entry { background:#fff; padding:1rem; border-radius:.8rem; margin-bottom:.75rem; box-shadow:0 2px 6px rgba(0,0,0,.06); }
+    .entry .date { font-weight:600; color:var(--primary); }
+    .entry .note { margin-top:.4rem; font-size:.95rem; color:#333; }
+
+    #aiInsight { margin-top:1rem; padding:1rem; border-radius:.8rem; background:#e6f9f7; display:none; }
+
+    [data-theme="dark"] .mood-btn { background:#333; }
+    [data-theme="dark"] .metric { background:#2d2d2d; }
+    [data-theme="dark"] .entry { background:#2d2d2d; }
+    [data-theme="dark"] #aiInsight { background:#1e3a3a; color:#fff; }
+  </style>
 </head>
-
 <body>
-  <!-- top navigation -->
-  <nav class="top-nav">
-    <a href="../index.html">Interface</a>
-    <a href="../chatbot/chatbot.html">Chatbot</a>
-    <a href="journal.html" class="active">Journal</a>
-  </nav>
 
-  <!-- hero -->
-  <header class="hero">
-    <div class="container">
-      <div class="team-badge">Team: AIIGood</div>
-      <h1>Wellness Journal</h1>
-      <p data-lang-en="Track your mood and reflections." data-lang-yue="記錄你嘅心情同反思。">
-        Track your mood and reflections.
-      </p>
+<!-- top navigation -->
+<nav class="top-nav">
+  <a href="../index.html">HOME</a>
+  <a href="../chatbot/chatbot.html">Chatbot</a>
+  <a href="journal.html" class="active">Journal</a>
+</nav>
+
+<!-- hero -->
+<header class="hero">
+  <div class="container">
+    <div class="team-badge">Team: AIIGood</div>
+    <h1>Wellness Journal</h1>
+    <p data-lang-en="Track your mood and reflections." data-lang-yue="記錄你嘅心情同反思。">
+      Track your mood and reflections.
+    </p>
+  </div>
+</header>
+
+<!-- main app -->
+<section class="app">
+  <div id="journal">
+
+    <div class="journal-header">
+      <h2>Mood Journal</h2>
+      <button id="addEntryBtn" class="add-entry">+ New Entry</button>
     </div>
-  </header>
 
-  <!-- main app -->
-  <section class="app">
-    <div id="journal" aria-labelledby="journal-title">
-      <h2 id="journal-title" class="visually-hidden">Journal</h2>
+  <div class="quick-actions">
+    <button class="quick-action-btn" onclick="showEntryModal(3)">
+      🎤 Quick Voice Entry
+    </button>
+    <button class="quick-action-btn" onclick="toggleGhostWriter()">
+      ✨ Toggle Ghost Writer
+    </button>
+  </div>
 
-      <!-- mood chart -->
+    <!-- Mood picker -->
+    <div class="mood-picker" role="group" aria-label="Pick your mood">
+      <button class="mood-btn" data-mood="1" aria-label="Mood 1 of 5">Bad</button>
+      <button class="mood-btn" data-mood="2" aria-label="Mood 2 of 5">Sad</button>
+      <button class="mood-btn" data-mood="3" aria-label="Mood 3 of 5">Neutral</button>
+      <button class="mood-btn" data-mood="4" aria-label="Mood 4 of 5">Happy</button>
+      <button class="mood-btn" data-mood="5" aria-label="Mood 5 of 5">Great</button>
+    </div>
+
+    <!-- Chart -->
+    <div class="chart-card" style="margin:1.5rem 0;">
       <canvas id="moodChart" height="220"></canvas>
-
-      <!-- mood picker -->
-      <div class="mood-picker" role="group" aria-label="Pick your mood">
-        <button class="mood-btn" data-mood="1" aria-label="Mood 1 of 5">Bad</button>
-        <button class="mood-btn" data-mood="2" aria-label="Mood 2 of 5">Sad</button>
-        <button class="mood-btn" data-mood="3" aria-label="Mood 3 of 5">Neutral</button>
-        <button class="mood-btn" data-mood="4" aria-label="Mood 4 of 5">Happy</button>
-        <button class="mood-btn" data-mood="5" aria-label="Mood 5 of 5">Great</button>
-      </div>
-
-      <!-- entries list -->
-      <div id="entries">
-        <div class="journal-entry">
-          <h4>Today – <span id="today-date"></span></h4>
-          <p data-lang-en="Had a good day, finished project." data-lang-yue="今日過得唔錯，完成咗個project。">
-            Had a good day, finished project.
-          </p>
-        </div>
-      </div>
-
-      <button class="add-entry" id="addEntryBtn">+ New Entry</button>
     </div>
-  </section>
 
-  <!-- journal logic -->
-  <script src="journal.js"></script>
+    <!-- AI Insight -->
+    <div id="aiInsight" class="box"></div>
+
+    <!-- Metrics -->
+    <div class="metrics-grid">
+      <div class="metric"><strong>Avg Mood:</strong> <span id="avgMood">-</span></div>
+      <div class="metric"><strong>Current Streak:</strong> <span id="streak">-</span></div>
+      <div class="metric"><strong>Longest Streak:</strong> <span id="longestStreak">-</span></div>
+      <div class="metric"><strong>Mood Distribution:</strong> <span id="distro">-</span></div>
+    </div>
+
+    <!-- Entries list -->
+    <div id="entriesList"></div>
+
+  </div>
+</section>
+
+<!-- journal logic -->
+<script src="journal.js"></script>
 </body>
 </html>

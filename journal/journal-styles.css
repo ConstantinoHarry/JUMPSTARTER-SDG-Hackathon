@@ -1,152 +1,1197 @@
-/* -------------------------------------------------- */
-/*  Journal – standalone sheet (inherits root tokens) */
-/* -------------------------------------------------- */
+/* ==============================================================
+   JOURNAL – COMPLETE STYLESHEET
+   ============================================================== */
 
-/* 1.  mood-chart container */
-#moodChart {
-  width: 100% !important;
-  height: 220px !important;
-  max-height: 320px;
-  margin-bottom: 1.5rem;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, .45);
-  backdrop-filter: blur(6px);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, .06);
+/* --------------------------------------------------------------
+   Journal Layout & Structure
+   -------------------------------------------------------------- */
+#journal {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 1.5rem;
 }
 
-/* 2.  mood-picker bar */
-.mood-picker {
+.journal-header {
   display: flex;
-  gap: .5rem;
-  justify-content: center;
-  margin-bottom: 2rem;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
-.mood-btn {
-  flex: 1 1 0;
-  min-width: 0;
-  padding: .75rem .5rem;
-  border: 2px solid transparent;
-  border-radius: var(--radius, 1.5rem);
-  background: #fff;
-  color: var(--gray, #6c757d);
+.journal-header h2 {
+  margin: 0;
+  font-size: 1.6rem;
+  color: #fff;
+}
+
+/* --------------------------------------------------------------
+   Add Entry Button
+   -------------------------------------------------------------- */
+#addEntryBtn {
+  padding: 0.6rem 1.2rem;
+  font-size: 0.9rem;
+  border: none;
+  border-radius: var(--radius, 0.6rem);
+  background: var(--primary);
+  color: #fff;
   font-weight: 600;
   cursor: pointer;
-  transition: var(--transition, all .3s cubic-bezier(.4, 0, .2, 1));
-  box-shadow: 0 2px 6px rgba(0, 0, 0, .05);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: var(--transition);
+  white-space: nowrap;
 }
 
-.mood-btn:hover {
+#addEntryBtn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, .08);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
 }
 
-.mood-btn:active {
+#addEntryBtn:active {
   transform: translateY(0);
 }
 
-.mood-btn.active,
-.mood-btn:focus-visible {
-  border-color: var(--primary, #ff6b9d);
-  color: var(--primary);
-  background: rgba(255, 107, 157, .08);
+/* --------------------------------------------------------------
+   Mood Picker
+   -------------------------------------------------------------- */
+.mood-picker {
+  display: flex;
+  gap: 0.5rem;
+  margin: 1.5rem 0;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
-/* 3.  entries list */
-#entries {
+.mood-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #eee;
+  color: var(--gray, #6c757d);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.75rem;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: transform 0.2s, background 0.2s, box-shadow 0.2s;
+}
+
+.mood-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.mood-btn.selected {
+  background: var(--primary);
+  color: #fff;
+  box-shadow: 0 0 0 3px rgba(255, 107, 157, 0.35);
+  transform: scale(1.05);
+}
+
+/* --------------------------------------------------------------
+   Chart Container
+   -------------------------------------------------------------- */
+.chart-card {
+  margin: 1.5rem 0;
+  background: rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(6px);
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+  padding: 1rem;
+  position: relative;
+}
+
+#moodChart {
+  width: 100% !important;
+  height: 220px !important;
+}
+
+/* --------------------------------------------------------------
+   Metrics Grid
+   -------------------------------------------------------------- */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0.75rem;
+  margin: 1.5rem 0;
+}
+
+.metric {
+  background: #f8f9fa;
+  padding: 1rem 0.75rem;
+  border-radius: 0.6rem;
+  text-align: center;
+  font-size: 0.9rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.metric strong {
+  display: block;
+  margin-bottom: 0.25rem;
+  color: var(--primary);
+  font-size: 0.85rem;
+}
+
+/* --------------------------------------------------------------
+   AI Insight Box
+   -------------------------------------------------------------- */
+#aiInsight {
+  margin-top: 1.5rem;
+  padding: 1.25rem;
+  border-radius: 0.8rem;
+  background: #e6f9f7;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  border-left: 4px solid var(--secondary, #4ecdc4);
+  display: none;
+}
+
+#aiInsight.show {
+  display: block;
+  animation: fadeIn 0.3s ease-in;
+}
+
+/* --------------------------------------------------------------
+   Entries List
+   -------------------------------------------------------------- */
+#entriesList {
+  margin-top: 2rem;
+}
+
+.entry {
+  background: #fff;
+  padding: 1.25rem;
+  border-radius: 0.8rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border-left: 4px solid var(--secondary, #4ecdc4);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.entry:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.entry .date {
+  font-weight: 700;
+  color: var(--primary);
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+}
+
+.entry .note {
+  margin-top: 0.5rem;
+  font-size: 0.95rem;
+  color: #333;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+.entry .mood-indicator {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  background: var(--primary);
+  color: white;
+  border-radius: 1rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-right: 0.5rem;
+}
+
+/* --------------------------------------------------------------
+   Modal for New Entry
+   -------------------------------------------------------------- */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  animation: fadeIn 0.25s ease-in;
+}
+
+.modal-backdrop.show {
+  display: flex;
+}
+
+.modal-card {
+  background: #fff;
+  border-radius: var(--radius, 1.2rem);
+  max-width: 440px;
+  width: 100%;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+  padding: 1.75rem;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
+  gap: 1.25rem;
+  transform: scale(0.9);
+  animation: scaleIn 0.25s ease-out forwards;
 }
 
-.journal-entry {
-  background: #fff;
-  padding: 1.25rem 1.5rem;
-  border-radius: 1rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, .05);
-  border-left: 4px solid var(--secondary, #4ecdc4);
-}
-
-.journal-entry h4 {
-  margin: 0 0 .5rem;
-  color: var(--primary);
-  font-size: 1rem;
-}
-
-.journal-entry p {
+.modal-card h3 {
   margin: 0;
-  color: var(--dark, #1a1a1a);
+  font-size: 1.3rem;
+  color: var(--primary);
+}
+
+.modal-card textarea {
+  resize: vertical;
+  min-height: 120px;
+  font-family: inherit;
+  font-size: 1rem;
+  padding: 0.75rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 0.6rem;
+  background: #f8f9fa;
+  transition: border-color 0.2s, background 0.2s;
   line-height: 1.5;
 }
 
-/* 4.  “+ New Entry” button */
-.add-entry {
-  display: block;
-  width: 100%;
-  padding: 1rem;
-  border: 2px dashed var(--primary);
-  border-radius: var(--radius, 1.5rem);
-  background: transparent;
-  color: var(--primary);
+.modal-card textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(255, 107, 157, 0.1);
+}
+
+.modal-actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-end;
+  margin-top: 0.5rem;
+}
+
+.modal-actions button {
+  padding: 0.55rem 1.2rem;
+  border: none;
+  border-radius: 0.6rem;
   font-weight: 600;
   cursor: pointer;
   transition: var(--transition);
+  font-size: 0.9rem;
 }
 
-.add-entry:hover {
+.btn-cancel {
+  background: #e0e0e0;
+  color: #333;
+}
+
+.btn-cancel:hover {
+  background: #d0d0d0;
+}
+
+.btn-save {
   background: var(--primary);
   color: #fff;
 }
 
-/* 5.  dark-mode overrides */
-[data-theme="dark"] #moodChart {
-  background: rgba(30, 30, 30, .45);
-  filter: brightness(1.05) contrast(1.05);
+.btn-save:hover {
+  background: var(--secondary);
+  transform: translateY(-1px);
 }
 
+/* --------------------------------------------------------------
+   Dark Mode Styles
+   -------------------------------------------------------------- */
 [data-theme="dark"] .mood-btn {
-  background: var(--dark-surface, #1e1e1e);
+  background: #333;
   color: var(--dark-muted, #b0bec5);
 }
 
-[data-theme="dark"] .mood-btn.active,
-[data-theme="dark"] .mood-btn:focus-visible {
-  border-color: var(--dark-primary, #ff8a80);
-  color: var(--dark-primary);
-  background: rgba(255, 138, 128, .12);
+[data-theme="dark"] .mood-btn.selected {
+  background: var(--primary);
+  color: #fff;
 }
 
-[data-theme="dark"] .journal-entry {
-  background: var(--dark-surface, #1e1e1e);
-  border-left-color: var(--dark-secondary, #80deea);
-}
-
-[data-theme="dark"] .journal-entry p {
+[data-theme="dark"] .metric {
+  background: #2d2d2d;
   color: var(--dark-text, #fff);
 }
 
-[data-theme="dark"] .add-entry {
-  border-color: var(--dark-primary);
-  color: var(--dark-primary);
+[data-theme="dark"] .metric strong {
+  color: var(--dark-primary, #ff8a80);
 }
 
-[data-theme="dark"] .add-entry:hover {
-  background: var(--dark-primary);
-  color: var(--dark-bg, #121212);
+[data-theme="dark"] .entry {
+  background: #2d2d2d;
+  color: var(--dark-text, #fff);
 }
 
-/* 6.  subtle page spacing */
-#journal {
-  padding: 1.5rem;
-  max-width: 680px;
-  margin: 0 auto;
+[data-theme="dark"] .entry .date {
+  color: var(--dark-primary, #ff8a80);
 }
 
-/* 7.  motion reduction */
+[data-theme="dark"] .entry .note {
+  color: var(--dark-text, #fff);
+}
+
+[data-theme="dark"] #aiInsight {
+  background: #1e3a3a;
+  color: #fff;
+  border-left-color: var(--dark-secondary, #80deea);
+}
+
+[data-theme="dark"] .chart-card {
+  background: rgba(30, 30, 30, 0.45);
+  color: var(--dark-text, #fff);
+}
+
+[data-theme="dark"] .modal-card {
+  background: var(--dark-surface, #1e1e1e);
+  color: var(--dark-text, #fff);
+}
+
+[data-theme="dark"] .modal-card textarea {
+  background: #3a3a3a;
+  color: var(--dark-text, #fff);
+  border-color: #444;
+}
+
+[data-theme="dark"] .modal-card textarea:focus {
+  border-color: var(--dark-primary, #ff8a80);
+  background: #444;
+}
+
+[data-theme="dark"] .btn-cancel {
+  background: #444;
+  color: var(--dark-text, #fff);
+}
+
+[data-theme="dark"] .btn-cancel:hover {
+  background: #555;
+}
+
+/* --------------------------------------------------------------
+   Animations
+   -------------------------------------------------------------- */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from { 
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to { 
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* --------------------------------------------------------------
+   Responsive Design
+   -------------------------------------------------------------- */
+@media (max-width: 768px) {
+  #journal {
+    padding: 1rem;
+  }
+  
+  .journal-header {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+  }
+  
+  .journal-header h2 {
+    font-size: 1.4rem;
+  }
+  
+  .mood-picker {
+    gap: 0.4rem;
+  }
+  
+  .mood-btn {
+    width: 44px;
+    height: 44px;
+    font-size: 0.7rem;
+  }
+  
+  .metrics-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+  }
+  
+  .metric {
+    padding: 0.75rem 0.5rem;
+    font-size: 0.85rem;
+  }
+  
+  .entry {
+    padding: 1rem;
+  }
+  
+  .modal-card {
+    margin: 1rem;
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .mood-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 0.65rem;
+  }
+  
+  .metrics-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .modal-actions {
+    flex-direction: column;
+  }
+  
+  .modal-actions button {
+    width: 100%;
+  }
+}
+
+/* --------------------------------------------------------------
+   Accessibility & Reduced Motion
+   -------------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
   * {
     transition: none !important;
     animation: none !important;
   }
+  
+  .mood-btn:hover,
+  .entry:hover,
+  #addEntryBtn:hover {
+    transform: none;
+  }
+}
+
+/* Focus styles for keyboard navigation */
+.mood-btn:focus-visible,
+#addEntryBtn:focus-visible,
+.modal-actions button:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* --------------------------------------------------------------
+   Additional Styles
+   -------------------------------------------------------------- */
+/* ==============================================================
+   ENHANCED JOURNAL STYLES
+   ============================================================== */
+
+/* Entry Header & Mood Display */
+.entry-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+}
+
+.mood-display {
+    padding: 0.3rem 0.8rem;
+    border-radius: 1rem;
+    font-weight: 600;
+    font-size: 0.85rem;
+    background: var(--primary-light, rgba(255, 107, 157, 0.1));
+    color: var(--primary);
+}
+
+.mood-1 { background: rgba(239, 68, 68, 0.1); color: #ef4444; }
+.mood-2 { background: rgba(249, 115, 22, 0.1); color: #f97316; }
+.mood-3 { background: rgba(234, 179, 8, 0.1); color: #eab308; }
+.mood-4 { background: rgba(34, 197, 94, 0.1); color: #22c55e; }
+.mood-5 { background: rgba(14, 165, 233, 0.1); color: #0ea5e9; }
+
+/* Entry Actions */
+.entry-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.entry:hover .entry-actions {
+    opacity: 1;
+}
+
+.btn-edit, .btn-delete {
+    padding: 0.4rem 0.8rem;
+    border: none;
+    border-radius: 0.4rem;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-edit {
+    background: rgba(78, 205, 196, 0.1);
+    color: var(--secondary, #4ecdc4);
+}
+
+.btn-edit:hover {
+    background: var(--secondary);
+    color: white;
+}
+
+.btn-delete {
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+}
+
+.btn-delete:hover {
+    background: #ef4444;
+    color: white;
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 3rem 2rem;
+    color: var(--gray, #6c757d);
+}
+
+.empty-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+.empty-state h3 {
+    margin: 0 0 0.5rem 0;
+    color: var(--dark, #333);
+}
+
+.empty-state p {
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+/* Enhanced AI Insight */
+#aiInsight {
+    border-left: 4px solid var(--secondary, #4ecdc4);
+    margin-top: 1.5rem;
+}
+
+.insight-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.insight-icon {
+    font-size: 1.1rem;
+}
+
+.insight-content {
+    line-height: 1.5;
+    font-size: 0.95rem;
+}
+
+/* Chart Placeholder */
+.chart-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 220px;
+    color: var(--gray, #6c757d);
+}
+
+.placeholder-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+/* Enhanced Modal */
+.modal-header {
+    border-bottom: 1px solid #e9ecef;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+}
+
+.selected-mood {
+    margin-top: 0.5rem;
+}
+
+.mood-preview {
+    display: inline-block;
+    padding: 0.4rem 0.8rem;
+    border-radius: 1rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.modal-body label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--dark, #333);
+}
+
+.char-count {
+    text-align: right;
+    font-size: 0.8rem;
+    color: var(--gray, #6c757d);
+    margin-top: 0.25rem;
+}
+
+/* Notifications */
+.notification {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    padding: 0.75rem 1.25rem;
+    border-radius: 0.5rem;
+    color: white;
+    font-weight: 500;
+    z-index: 10000;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    max-width: 300px;
+}
+
+.notification.show {
+    transform: translateX(0);
+}
+
+.notification-success { background: #10b981; }
+.notification-warning { background: #f59e0b; }
+.notification-info { background: #3b82f6; }
+.notification-error { background: #ef4444; }
+
+/* Enhanced Metrics */
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    margin: 2rem 0;
+}
+
+.metric {
+    background: #f8f9fa;
+    padding: 1.25rem 1rem;
+    border-radius: 0.75rem;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.metric:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.metric strong {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--primary);
+    font-size: 0.9rem;
+}
+
+.metric span {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--dark, #333);
+}
+
+/* Quick Actions */
+.quick-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin: 1rem 0;
+    justify-content: center;
+}
+
+.quick-action-btn {
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--primary);
+    background: transparent;
+    color: var(--primary);
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+}
+
+.quick-action-btn:hover {
+    background: var(--primary);
+    color: white;
+}
+
+/* Dark Mode Enhancements */
+[data-theme="dark"] .metric {
+    background: #2d2d2d;
+    color: var(--dark-text, #fff);
+}
+
+[data-theme="dark"] .metric span {
+    color: var(--dark-text, #fff);
+}
+
+[data-theme="dark"] .empty-state h3 {
+    color: var(--dark-text, #fff);
+}
+
+[data-theme="dark"] .empty-state {
+    color: var(--dark-muted, #b0bec5);
+}
+
+[data-theme="dark"] .mood-display {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .btn-edit {
+    background: rgba(78, 205, 196, 0.2);
+}
+
+[data-theme="dark"] .btn-delete {
+    background: rgba(239, 68, 68, 0.2);
+}
+
+/* Responsive Improvements */
+@media (max-width: 768px) {
+    .entry-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    .entry-actions {
+        opacity: 1; /* Always show on mobile */
+    }
+    
+    .metrics-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
+    }
+    
+    .modal-card {
+        margin: 1rem;
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .metrics-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .mood-btn {
+        width: 44px;
+        height: 44px;
+        font-size: 0.75rem;
+    }
+    
+    .journal-header {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+}
+
+/* Animation Enhancements */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.entry {
+    animation: slideIn 0.3s ease-out;
+}
+
+.metric {
+    animation: slideIn 0.3s ease-out;
+}
+
+/* Focus States for Accessibility */
+.mood-btn:focus-visible,
+#addEntryBtn:focus-visible,
+.modal-actions button:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+.btn-edit:focus-visible,
+.btn-delete:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 1px;
+}
+
+/* ==============================================================
+   GHOST WRITER ENHANCED STYLES
+   ============================================================== */
+
+/* Ghost Writer Badge */
+.ghost-badge {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 0.2rem 0.6rem;
+  border-radius: 1rem;
+  font-size: 0.7rem;
+  margin-left: 0.5rem;
+  font-weight: 600;
+}
+
+/* Polished Entry Styling */
+.polished-entry {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  background: rgba(255, 255, 255, 0.05);
+  border-left: 4px solid #8A2BE2;
+  padding: 1.25rem;
+  border-radius: 0.75rem;
+  margin: 1rem 0;
+  position: relative;
+  box-shadow: 0 4px 15px rgba(138, 43, 226, 0.1);
+}
+
+.polished-icon {
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  background: white;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.polished-text {
+  font-style: italic;
+  line-height: 1.6;
+  color: #333;
+  font-size: 1.05rem;
+  font-family: 'Georgia', serif;
+}
+
+/* Raw Emotion Toggle */
+.raw-emotion {
+  margin: 1rem 0;
+  border: 1px solid #e9ecef;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.raw-emotion summary {
+  padding: 0.75rem 1rem;
+  background: #f8f9fa;
+  cursor: pointer;
+  font-weight: 600;
+  color: #6c757d;
+  list-style: none;
+  transition: background 0.2s;
+}
+
+.raw-emotion summary:hover {
+  background: #e9ecef;
+}
+
+.raw-emotion summary::-webkit-details-marker {
+  display: none;
+}
+
+.raw-emotion summary:after {
+  content: '▶';
+  float: right;
+  transition: transform 0.2s;
+}
+
+.raw-emotion[open] summary:after {
+  transform: rotate(90deg);
+}
+
+.raw-text {
+  padding: 1rem;
+  background: white;
+  border-top: 1px solid #e9ecef;
+  font-size: 0.9rem;
+  color: #6c757d;
+  line-height: 1.5;
+}
+
+/* Ghost Modal Enhancements */
+.ghost-modal {
+  max-width: 600px;
+}
+
+.voice-input-container {
+  position: relative;
+}
+
+.voice-btn {
+  position: absolute;
+  right: 0.75rem;
+  top: 0.75rem;
+  background: transparent;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: all 0.2s;
+}
+
+.voice-btn:hover {
+  background: rgba(0, 0, 0, 0.1);
+  transform: scale(1.1);
+}
+
+.voice-btn.listening {
+  background: #ff4757;
+  color: white;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+/* Ghost Preview */
+.ghost-preview {
+  margin-top: 1.5rem;
+  padding: 1.25rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.preview-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+  font-size: 0.9rem;
+}
+
+.preview-icon {
+  font-size: 1.1rem;
+}
+
+.preview-text {
+  line-height: 1.6;
+  font-style: italic;
+  font-family: 'Georgia', serif;
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+}
+
+.loading-preview {
+  opacity: 0.7;
+  font-style: normal !important;
+}
+
+/* AI Toggle */
+.modal-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e9ecef;
+}
+
+.ai-toggle {
+  display: flex;
+  align-items: center;
+}
+
+.toggle-label {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: #6c757d;
+}
+
+.toggle-slider {
+  position: relative;
+  width: 50px;
+  height: 24px;
+  background: #ddd;
+  border-radius: 24px;
+  transition: all 0.3s;
+}
+
+.toggle-slider:before {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: white;
+  top: 2px;
+  left: 2px;
+  transition: all 0.3s;
+}
+
+#aiEnhance:checked + .toggle-slider {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+#aiEnhance:checked + .toggle-slider:before {
+  transform: translateX(26px);
+}
+
+/* Loading States */
+.loading-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid transparent;
+  border-top: 2px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  display: inline-block;
+  margin-right: 0.5rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Regenerate Button */
+.btn-regenerate {
+  background: rgba(138, 43, 226, 0.1);
+  color: #8A2BE2;
+  border: 1px solid #8A2BE2;
+  padding: 0.4rem 0.8rem;
+  border-radius: 0.4rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-regenerate:hover {
+  background: #8A2BE2;
+  color: white;
+}
+
+/* Enhanced Entry Animations */
+.entry {
+  transition: all 0.3s ease;
+}
+
+.entry:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.polished-entry {
+  animation: gentleGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes gentleGlow {
+  from {
+    box-shadow: 0 4px 15px rgba(138, 43, 226, 0.1);
+  }
+  to {
+    box-shadow: 0 6px 20px rgba(138, 43, 226, 0.2);
+  }
+}
+
+/* Dark Mode Enhancements for Ghost Writer */
+[data-theme="dark"] .polished-entry {
+  background: rgba(138, 43, 226, 0.1);
+  border-left-color: #9b4dff;
+}
+
+[data-theme="dark"] .polished-text {
+  color: #e9ecef;
+}
+
+[data-theme="dark"] .ghost-preview {
+  background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+  border-color: #4a5568;
+}
+
+[data-theme="dark"] .raw-emotion summary {
+  background: #2d3748;
+  color: #cbd5e0;
+}
+
+[data-theme="dark"] .raw-emotion summary:hover {
+  background: #4a5568;
+}
+
+[data-theme="dark"] .raw-text {
+  background: #2d3748;
+  color: #a0aec0;
+}
+
+/* Responsive Ghost Writer */
+@media (max-width: 768px) {
+  .ghost-modal {
+    margin: 1rem;
+    padding: 1.25rem;
+  }
+    
+  .modal-footer {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: stretch;
+  }
+    
+  .ai-toggle {
+    justify-content: center;
+  }
+    
+  .polished-entry {
+    padding: 1rem;
+    margin: 0.75rem 0;
+  }
+}
+
+/* Voice Input Status */
+.voice-status {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 2rem;
+  border-radius: 1rem;
+  z-index: 10000;
+  text-align: center;
+}
+
+.voice-pulse {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: #ff4757;
+  margin: 0 auto 1rem;
+  animation: voicePulse 1.5s infinite;
+}
+
+@keyframes voicePulse {
+  0% { transform: scale(0.8); opacity: 1; }
+  50% { transform: scale(1.2); opacity: 0.7; }
+  100% { transform: scale(0.8); opacity: 1; }
 }
