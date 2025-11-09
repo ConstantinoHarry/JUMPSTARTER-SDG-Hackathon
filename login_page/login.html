@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AIIGood – Sign In</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="stylesheet" href="login.css" />
+</head>
+<body class="auth-page">
+
+  <!-- Top Navigation -->
+  <nav class="top-nav" role="navigation" aria-label="Primary">
+    <a href="/index.html">HOME</a>
+    <a href="/chatbot/chatbot.html">Chatbot</a>
+    <a href="/journal/journal.html">Journal</a>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="hero auth-hero">
+    <div class="container">
+      <div class="team-badge">Team: AIIGood</div>
+      <h1>Welcome Back</h1>
+      <p>Continue your mental wellness journey with AI support</p>
+    </div>
+  </header>
+
+  <div class="container auth-container">
+
+    <!-- Auth Forms -->
+    <section class="auth-section">
+      <div class="auth-tabs">
+        <button class="auth-tab active" data-tab="login">Sign In</button>
+        <button class="auth-tab" data-tab="signup">Sign Up</button>
+      </div>
+
+      <!-- Login Form -->
+      <form id="loginForm" class="auth-form active">
+        <div class="form-group">
+          <label for="loginEmail">Email</label>
+          <input type="email" id="loginEmail" required placeholder="your.email@example.com">
+        </div>
+        
+        <div class="form-group">
+          <label for="loginPassword">Password</label>
+          <input type="password" id="loginPassword" required placeholder="Enter your password">
+          <button type="button" class="toggle-password" aria-label="Toggle password visibility">👁️</button>
+        </div>
+
+        <div class="form-options">
+          <label class="checkbox-label">
+            <input type="checkbox" id="rememberMe">
+            <span class="checkmark"></span>
+            Remember me
+          </label>
+          <a href="#" class="forgot-password">Forgot password?</a>
+        </div>
+
+        <button type="submit" class="btn-primary">Sign In</button>
+
+        <div class="auth-divider">
+          <span>or continue with</span>
+        </div>
+
+        <div class="social-auth">
+          <button type="button" class="btn-social google">
+            <svg viewBox="0 0 24 24" width="18" height="18">
+              <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+              <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+              <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+              <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+            </svg>
+            Google
+          </button>
+          <button type="button" class="btn-social apple">
+            <svg viewBox="0 0 24 24" width="18" height="18">
+              <path fill="#000" d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+            </svg>
+            Apple
+          </button>
+        </div>
+      </form>
+
+      <!-- Sign Up Form -->
+      <form id="signupForm" class="auth-form">
+        <div class="form-group">
+          <label for="signupName">Full Name</label>
+          <input type="text" id="signupName" required placeholder="Enter your full name">
+        </div>
+
+        <div class="form-group">
+          <label for="signupEmail">Email</label>
+          <input type="email" id="signupEmail" required placeholder="your.email@example.com">
+        </div>
+        
+        <div class="form-group">
+          <label for="signupPassword">Password</label>
+          <input type="password" id="signupPassword" required placeholder="Create a strong password">
+          <button type="button" class="toggle-password" aria-label="Toggle password visibility">👁️</button>
+          <div class="password-strength">
+            <div class="strength-bar"></div>
+            <span class="strength-text">Password strength</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="signupConfirmPassword">Confirm Password</label>
+          <input type="password" id="signupConfirmPassword" required placeholder="Confirm your password">
+          <button type="button" class="toggle-password" aria-label="Toggle password visibility">👁️</button>
+        </div>
+
+        <div class="form-group">
+          <label for="userType">I am a</label>
+          <select id="userType" required>
+            <option value="">Select your role</option>
+            <option value="student">Student (10-17)</option>
+            <option value="adult">Adult (18-64)</option>
+            <option value="senior">Senior (65+)</option>
+            <option value="caregiver">Caregiver</option>
+          </select>
+        </div>
+
+        <div class="form-options">
+          <label class="checkbox-label">
+            <input type="checkbox" id="agreeTerms" required>
+            <span class="checkmark"></span>
+            I agree to the <a href="#" class="link">Terms of Service</a> and <a href="#" class="link">Privacy Policy</a>
+          </label>
+        </div>
+
+        <button type="submit" class="btn-primary">Create Account</button>
+
+        <div class="auth-divider">
+          <span>or sign up with</span>
+        </div>
+
+        <div class="social-auth">
+          <button type="button" class="btn-social google">
+            <svg viewBox="0 0 24 24" width="18" height="18">
+              <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+              <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+              <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+              <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+            </svg>
+            Google
+          </button>
+          <button type="button" class="btn-social apple">
+            <svg viewBox="0 0 24 24" width="18" height="18">
+              <path fill="#000" d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+            </svg>
+            Apple
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+      <h2>Why Join AIIGood?</h2>
+      
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-number" data-target="8247">0</div>
+          <div class="stat-label">Total Users Supported</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" data-target="94.2">0%</div>
+          <div class="stat-label">User Satisfaction Rate</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" data-target="24">24/7</div>
+          <div class="stat-label">AI Support Available</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" data-target="1203">0</div>
+          <div class="stat-label">Crisis Interventions</div>
+        </div>
+      </div>
+
+      <!-- Problem Statement -->
+      <div class="problem-card">
+        <h3>Addressing Hong Kong's Mental Health Crisis</h3>
+        <p>The increasing prevalence of mental illnesses, society's level of acceptance toward individuals with mental health needs remains insufficient, while prejudices, negative stigmas, and negative media reporting continue to persist.</p>
+        
+        <div class="problem-stats">
+          <div class="problem-stat">
+            <strong>2020:</strong> &gt;250,000 affected (3.4% prevalence)
+          </div>
+          <div class="problem-stat">
+            <strong>2019–20:</strong> 270,000 → <strong>2023–24:</strong> 300,000 seeking care (+11%)
+          </div>
+          <div class="problem-stat">
+            <strong>Stigma delays help</strong> across children, adults, elderly
+          </div>
+        </div>
+        
+        <p class="citation"><em>(Equal Opportunities Commission, 2024)</em></p>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Floating Controls -->
+  <div class="floating-controls" role="group" aria-label="Quick settings">
+    <button class="lang-toggle active" data-lang="en" aria-label="English" aria-pressed="true" title="English">
+      <svg viewBox="0 0 60 30" aria-hidden="true" focusable="false"><rect width="60" height="30" rx="4" fill="#fff"/><rect width="30" height="30" fill="#C60C30"/><path d="M0 0l60 30M60 0L0 30" stroke="#FFF" stroke-width="4"/><path d="M0 0l60 30M60 0L0 30" stroke="#C60C30" stroke-width="2"/></svg>
+    </button>
+    <button class="lang-toggle" data-lang="yue" aria-label="Cantonese" aria-pressed="false" title="Cantonese">
+      <svg viewBox="0 0 60 30" aria-hidden="true" focusable="false"><rect width="60" height="30" rx="4" fill="#DE2910"/><path d="M30 5l3.5 10h-7z" fill="#FFF"/><path d="M20 10l3 9h-6z" fill="#FFF"/><path d="M40 10l-3 9h6z" fill="#FFF"/><path d="M25 15l2.5 7.5h-5z" fill="#FFF"/><path d="M35 15l-2.5 7.5h5z" fill="#FFF"/></svg>
+    </button>
+    <button class="theme-toggle" id="themeToggle" title="Toggle theme">Dark Mode</button>
+  </div>
+
+  <!-- Crisis Button -->
+  <button class="crisis" title="Emergency? Tap for hotline" aria-label="Crisis hotline">
+    Warning
+  </button>
+
+  <script src="login.js"></script>
+</body>
+</html>
