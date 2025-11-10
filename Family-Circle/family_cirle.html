@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" data-lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIIGood - Family Circle</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="family_circle.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+    <!-- Top Navigation -->
+    <nav class="top-nav">
+        <a href="../index.html">HOME</a>
+        <a href="../chatbot/chatbot.html">Chat</a>
+        <a href="../journal/journal.html">Journal</a>
+        <a href="../task_manager/task_manager.html">Tasks</a>
+        <a href="family_circle.html" class="active">Family Circle</a>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="container">
+            <div class="team-badge">Team: AIIGood</div>
+            <h1>Family Circle</h1>
+            <p>Stay connected with loved ones' wellbeing while respecting privacy</p>
+        </div>
+    </header>
+
+    <!-- Main App -->
+    <section class="app">
+        <div class="container family-container">
+            
+            <!-- Family Dashboard -->
+            <div class="family-dashboard">
+                <!-- Family Overview -->
+                <div class="dashboard-header">
+                    <div class="family-info">
+                        <h2>Lee Family Circle</h2>
+                        <p>3 members connected • Last updated: Today</p>
+                        <!-- ADD THIS: Family stats element -->
+                        <div class="family-stats" style="display: none;"></div>
+                    </div>
+                    <div class="family-actions">
+                        <button class="btn-primary" id="inviteMember">
+                            <span class="btn-icon">👥</span>
+                            Invite Member
+                        </button>
+                        <button class="btn-secondary" id="circleSettings">
+                            <span class="btn-icon">⚙️</span>
+                            Settings
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Member Cards Grid -->
+                <div class="members-grid">
+                    <!-- Parent Card -->
+                    <div class="member-card parent" data-member-id="parent_1">
+                        <div class="member-header">
+                            <div class="member-avatar">👨</div>
+                            <div class="member-info">
+                                <h3>Dad (You)</h3>
+                                <span class="member-role">Parent • Admin</span>
+                            </div>
+                            <div class="member-status online">Online</div>
+                        </div>
+                        
+                        <div class="wellness-overview">
+                            <div class="wellness-score">
+                                <div class="score-value">72</div>
+                                <div class="score-label">Wellness Score</div>
+                            </div>
+                            <div class="mood-trend">
+                                <span class="trend-indicator up">↗</span>
+                                <span class="trend-text">Improved this week</span>
+                            </div>
+                        </div>
+
+                        <div class="recent-activity">
+                            <h4>Recent Activity</h4>
+                            <ul class="activity-list">
+                                <li>✅ Completed 5 wellness tasks</li>
+                                <li>📝 Journal entry yesterday</li>
+                                <li>😊 Mood: Generally positive</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Child Card (10+) -->
+                    <div class="member-card child" data-member-id="child_1">
+                        <div class="member-header">
+                            <div class="member-avatar">👦</div>
+                            <div class="member-info">
+                                <h3>Alex (12)</h3>
+                                <span class="member-role">Child • Protected</span>
+                            </div>
+                            <div class="member-status away">Away</div>
+                        </div>
+                        
+                        <div class="privacy-shield">
+                            <div class="shield-icon">🛡️</div>
+                            <div class="shield-text">
+                                <strong>Privacy Protected</strong>
+                                <span>Aggregated data only for children under 13</span>
+                            </div>
+                        </div>
+
+                        <div class="wellness-overview">
+                            <div class="wellness-score">
+                                <div class="score-value">65</div>
+                                <div class="score-label">Wellness Score</div>
+                            </div>
+                            <div class="mood-trend">
+                                <span class="trend-indicator down">↘</span>
+                                <span class="trend-text">Needs attention</span>
+                            </div>
+                        </div>
+
+                        <div class="caregiver-actions">
+                            <!-- FIXED: Use proper member ID -->
+                            <button class="btn-action check-in" data-member="child_1">
+                                <span class="action-icon">💬</span>
+                                Send Check-in
+                            </button>
+                            <button class="btn-action view-insights" data-member="child_1">
+                                <span class="action-icon">📊</span>
+                                View Insights
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Elderly Member Card -->
+                    <div class="member-card elderly" data-member-id="elderly_1">
+                        <div class="member-header">
+                            <div class="member-avatar">👵</div>
+                            <div class="member-info">
+                                <h3>Grandma</h3>
+                                <span class="member-role">Elderly • Care Recipient</span>
+                            </div>
+                            <div class="member-status online">Online</div>
+                        </div>
+                        
+                        <div class="wellness-overview">
+                            <div class="wellness-score">
+                                <div class="score-value">58</div>
+                                <div class="score-label">Wellness Score</div>
+                            </div>
+                            <div class="mood-trend">
+                                <span class="trend-indicator stable">→</span>
+                                <span class="trend-text">Stable this week</span>
+                            </div>
+                        </div>
+
+                        <div class="care-checkins">
+                            <h4>Recent Check-ins</h4>
+                            <div class="checkin-list">
+                                <div class="checkin-item">
+                                    <span class="checkin-time">2 hours ago</span>
+                                    <span class="checkin-status responded">✅ Responded</span>
+                                </div>
+                                <div class="checkin-item">
+                                    <span class="checkin-time">Yesterday</span>
+                                    <span class="checkin-status pending">⏰ No response</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="caregiver-actions">
+                            <!-- FIXED: Use proper member ID -->
+                            <button class="btn-action check-in" data-member="elderly_1">
+                                <span class="action-icon">💬</span>
+                                Send Check-in
+                            </button>
+                            <button class="btn-action urgent" data-member="elderly_1">
+                                <span class="action-icon">🚨</span>
+                                Urgent Check-in
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Family Wellness Analytics -->
+                <div class="analytics-section">
+                    <div class="section-header">
+                        <h3>Family Wellness Trends</h3>
+                        <div class="time-filter">
+                            <select id="timeRange">
+                                <option value="7d">Last 7 days</option>
+                                <option value="30d">Last 30 days</option>
+                                <option value="90d">Last 90 days</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="charts-grid">
+                        <div class="chart-card">
+                            <h4>Mood Trends</h4>
+                            <div class="chart-container">
+                                <canvas id="moodTrendChart" height="200"></canvas>
+                            </div>
+                        </div>
+                        
+                        <div class="chart-card">
+                            <h4>Activity Completion</h4>
+                            <div class="chart-container">
+                                <canvas id="activityChart" height="200"></canvas>
+                            </div>
+                        </div>
+                        
+                        <div class="chart-card">
+                            <h4>Wellness Balance</h4>
+                            <div class="chart-container">
+                                <canvas id="wellnessBalanceChart" height="200"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Weekly Roll-up Insights -->
+                <div class="insights-section">
+                    <div class="section-header">
+                        <h3>Weekly Family Insights</h3>
+                        <span class="insight-date">Week of Dec 10, 2024</span>
+                    </div>
+                    
+                    <div class="insights-grid">
+                        <div class="insight-card positive">
+                            <div class="insight-icon">💪</div>
+                            <div class="insight-content">
+                                <h4>Strong Family Connection</h4>
+                                <p>Family wellness scores improved by 15% this week. Keep up the supportive environment!</p>
+                            </div>
+                        </div>
+                        
+                        <div class="insight-card attention">
+                            <div class="insight-icon">👀</div>
+                            <div class="insight-content">
+                                <h4>Needs Attention</h4>
+                                <p>Alex's mood trend shows decreased social activity. Consider checking in about school.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="insight-card suggestion">
+                            <div class="insight-icon">💡</div>
+                            <div class="insight-content">
+                                <h4>Wellness Tip</h4>
+                                <p>Family mindfulness sessions could help improve Grandma's consistency scores.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pricing Section -->
+            <div class="pricing-section">
+                <div class="pricing-header">
+                    <h2>Family Circle Plans</h2>
+                    <p>Choose the plan that fits your family's needs</p>
+                </div>
+                
+                <div class="pricing-cards">
+                    <div class="pricing-card free">
+                        <div class="plan-badge">Free</div>
+                        <h3>Basic Circle</h3>
+                        <div class="price">$0<span>/month</span></div>
+                        <ul class="plan-features">
+                            <li>✅ 1 family member included</li>
+                            <li>✅ Basic mood tracking</li>
+                            <li>✅ Weekly insights</li>
+                            <li>❌ Limited check-ins</li>
+                            <li>❌ No advanced analytics</li>
+                        </ul>
+                        <button class="btn-secondary" disabled>Current Plan</button>
+                    </div>
+                    
+                    <div class="pricing-card premium featured">
+                        <div class="plan-badge">Popular</div>
+                        <h3>Family Premium</h3>
+                        <div class="price">HK$28<span>/month</span></div>
+                        <ul class="plan-features">
+                            <li>✅ Unlimited family members</li>
+                            <li>✅ Advanced mood analytics</li>
+                            <li>✅ Unlimited check-ins</li>
+                            <li>✅ Priority support</li>
+                            <li>✅ Encrypted sharing</li>
+                        </ul>
+                        <button class="btn-primary">Upgrade Now</button>
+                    </div>
+                    
+                    <div class="pricing-card school">
+                        <div class="plan-badge">Schools</div>
+                        <h3>School License</h3>
+                        <div class="price">Custom<span>/year</span></div>
+                        <ul class="plan-features">
+                            <li>✅ Bulk student accounts</li>
+                            <li>✅ Teacher dashboards</li>
+                            <li>✅ School-wide analytics</li>
+                            <li>✅ Compliance reporting</li>
+                            <li>✅ Dedicated support</li>
+                        </ul>
+                        <button class="btn-secondary">Contact Sales</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Modals -->
+    <!-- Invite Member Modal -->
+    <div class="modal" id="inviteModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Invite to Family Circle</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="invite-options">
+                    <div class="invite-option">
+                        <label>
+                            <input type="radio" name="inviteType" value="email" checked>
+                            <span class="option-content">
+                                <strong>📧 Email Invitation</strong>
+                                <span>Send secure link via email</span>
+                            </span>
+                        </label>
+                    </div>
+                    <div class="invite-option">
+                        <label>
+                            <input type="radio" name="inviteType" value="link">
+                            <span class="option-content">
+                                <strong>🔗 Shareable Link</strong>
+                                <span>Copy encrypted link to share</span>
+                            </span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="invite-form">
+                    <div class="form-group">
+                        <label for="inviteEmail">Email Address</label>
+                        <input type="email" id="inviteEmail" placeholder="family.member@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="memberRole">Member Role</label>
+                        <select id="memberRole">
+                            <option value="parent">Parent/Caregiver</option>
+                            <option value="child">Child (10+)</option>
+                            <option value="elderly">Elderly Family Member</option>
+                            <option value="general">General Family Member</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="security-notice">
+                    <div class="security-icon">🔒</div>
+                    <div class="security-text">
+                        <strong>End-to-End Encrypted</strong>
+                        <span>All shared data is encrypted and private</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="cancelInvite">Cancel</button>
+                <button class="btn-primary" id="sendInvite">Send Invitation</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Check-in Modal -->
+    <div class="modal" id="checkinModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="checkinMemberName">Send Check-in</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="checkin-options">
+                    <div class="checkin-option">
+                        <label>
+                            <input type="radio" name="checkinType" value="gentle" checked>
+                            <span class="option-content">
+                                <strong>💬 Gentle Check-in</strong>
+                                <span>"Just checking in, how are you feeling?"</span>
+                            </span>
+                        </label>
+                    </div>
+                    <div class="checkin-option">
+                        <label>
+                            <input type="radio" name="checkinType" value="activity">
+                            <span class="option-content">
+                                <strong>🎯 Activity Check-in</strong>
+                                <span>"How did your wellness activities go today?"</span>
+                            </span>
+                        </label>
+                    </div>
+                    <div class="checkin-option">
+                        <label>
+                            <input type="radio" name="checkinType" value="custom">
+                            <span class="option-content">
+                                <strong>✏️ Custom Message</strong>
+                                <span>Write your own check-in message</span>
+                            </span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="custom-message" id="customMessageSection" style="display: none;">
+                    <div class="form-group">
+                        <label for="checkinMessage">Your Message</label>
+                        <textarea id="checkinMessage" placeholder="Write a supportive check-in message..." rows="3"></textarea>
+                    </div>
+                </div>
+                
+                <div class="urgency-level">
+                    <label>Urgency Level</label>
+                    <div class="urgency-options">
+                        <label class="urgency-option">
+                            <input type="radio" name="urgency" value="low" checked>
+                            <span>Low</span>
+                        </label>
+                        <label class="urgency-option">
+                            <input type="radio" name="urgency" value="medium">
+                            <span>Medium</span>
+                        </label>
+                        <label class="urgency-option">
+                            <input type="radio" name="urgency" value="high">
+                            <span>High</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="cancelCheckin">Cancel</button>
+                <button class="btn-primary" id="sendCheckin">Send Check-in</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Controls -->
+    <div class="floating-controls">
+        <!-- FIXED: Added btn-secondary class -->
+        <button class="btn-secondary theme-toggle" id="themeToggle">Dark Mode</button>
+    </div>
+
+    <!-- Crisis Button -->
+    <button class="crisis" title="Emergency? Tap for hotline">Warning</button>
+
+    <script src="/script.js"></script>
+    <script src="family_circle.js"></script>
+</body>
+</html>

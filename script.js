@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initCharts();
   bindLogout();
   bindCrisis();
+  removeBlockingOverlays();
 });
 
 /* THEME */
@@ -204,3 +205,53 @@ function logout() {
   // Redirect to login page
   window.location.href = '/login_page/login.html';
 }
+
+/* Diagnose & mitigate accidental full-screen overlays that block clicks
+   Runs early on page load and will disable pointer events for large,
+   visible fixed/absolute elements that are likely modal/backdrop bugs.
+   This is defensive — it logs any changes to the console.
+*/
+function removeBlockingOverlays() {
+  try {
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    const area = vw * vh;
+    const candidates = Array.from(document.querySelectorAll('body *'));
+
+    candidates.forEach(el => {
+      try {
+        const cs = window.getComputedStyle(el);
+        if (!cs) return;
+        const pos = cs.position;
+        if (pos !== 'fixed' && pos !== 'absolute' && pos !== 'sticky') return;
+
+        const rect = el.getBoundingClientRect();
+        if (rect.width === 0 || rect.height === 0) return;
+
+        const visibleArea = rect.width * rect.height;
+        const coversMost = visibleArea / area > 0.45 || (rect.top <= 0 && rect.left <= 0 && rect.right >= vw && rect.bottom >= vh);
+        const isFloatingControls = el.classList && (el.classList.contains('floating-controls') || el.classList.contains('crisis') || el.classList.contains('modal-card'));
+
+        // More aggressive: if element covers most of viewport and is visible, disable pointer events so underlying UI works.
+        if (coversMost && !isFloatingControls) {
+          if (!el.dataset.__pointerDisabled) {
+            el.dataset.__pointerDisabled = '1';
+            el.style.pointerEvents = 'none';
+            el.style.outline = '2px dashed rgba(255,0,0,0.15)';
+            el.style.transition = 'outline 0.2s ease';
+            console.warn('Disabled pointer-events on blocking element:', el);
+          }
+        }
+      } catch (inner) {
+        // ignore per-element errors
+      }
+    });
+  } catch (err) {
+    console.warn('removeBlockingOverlays failed', err);
+  }
+}
+
+// Run again a few times after load to catch overlays created dynamically
+setTimeout(removeBlockingOverlays, 400);
+setTimeout(removeBlockingOverlays, 1200);
+window.addEventListener('resize', removeBlockingOverlays);
