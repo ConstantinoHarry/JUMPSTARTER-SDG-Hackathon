@@ -9,10 +9,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet"/>
 
   <!-- shared stylesheet -->
-  <link rel="stylesheet" href="../styles.css"/>
+  <link rel="stylesheet" href="/styles.css"/>
 
   <!-- Pages specific style-->
-   <link rel="stylesheet" href="journal-styles.css"/>
+   <link rel="stylesheet" href="/journal/journal-styles.css"/>
 
   <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
@@ -53,13 +53,13 @@
 <body>
 
 <!-- top navigation -->
-    <nav class="top-nav">
-        <a href="../index.html">HOME</a>
-        <a href="../chatbot/chatbot.html">Chat</a>
-        <a href="../journal/journal.html">Journal</a>
-        <a href="../task_manager/task_manager.html">Tasks</a>
-        <a href="../Family-Circle/family_cirle.html" class="active">Family Circle</a>
-    </nav>
+  <nav class="top-nav">
+    <a href="/index.html">HOME</a>
+    <a href="/chatbot/chatbot.html">Chat</a>
+    <a href="/journal/journal.html">Journal</a>
+    <a href="/task_manager/task_manager.html">Tasks</a>
+    <a href="/Family-Circle/family_cirle.html" class="active">Family Circle</a>
+  </nav>
 
 <!-- hero -->
 <header class="hero">
@@ -122,6 +122,55 @@
 </section>
 
 <!-- journal logic -->
-<script src="journal.js"></script>
+<script src="/journal/journal.js"></script>
+<script>
+  (function detectBlockingOverlays() {
+  function fmt(el){
+    if(!el) return 'none';
+    return el.tagName.toLowerCase() + (el.id?('#'+el.id):'') + (el.className?('.'+String(el.className).replace(/\s+/g,'.')):'') + ` (z=${getComputedStyle(el).zIndex || 'auto'})`;
+  }
+
+  // element currently under the center of the viewport
+  const cx = Math.round(innerWidth/2), cy = Math.round(innerHeight/2);
+  const topAtCenter = document.elementFromPoint(cx, cy);
+  console.group('%cBlocking overlay diagnostic', 'font-weight:bold; color:#0a6;');
+  console.log('Center coords:', cx, cy);
+  console.log('Top element at center:', fmt(topAtCenter));
+  console.log('Full element:', topAtCenter);
+  console.groupEnd();
+
+  // scan for large fixed/absolute/sticky elements
+  const candidates = Array.from(document.querySelectorAll('body *')).filter(el=>{
+    const s = getComputedStyle(el);
+    if(!el.offsetParent && s.position==='static') return false;
+    if(!/fixed|absolute|sticky/.test(s.position)) return false;
+    const rect = el.getBoundingClientRect();
+    if(rect.width===0 || rect.height===0) return false;
+    const area = rect.width * rect.height;
+    const vpArea = innerWidth * innerHeight;
+    const coverage = area / vpArea;
+    return coverage > 0.30; // covers more than 30% of viewport
+  });
+
+  if(candidates.length===0){
+    console.log('No large fixed/absolute/sticky elements found that cover >30% of the viewport.');
+  } else {
+    console.group('Large overlay candidates (covers >30% of viewport):');
+    candidates.forEach((el, i)=>{
+      const rect = el.getBoundingClientRect();
+      console.log(`#${i+1}:`, fmt(el), 'rect=', rect, 'coverage=', ((rect.width*rect.height)/(innerWidth*innerHeight)).toFixed(2));
+      // highlight visually:
+      el.style.outline = '3px solid rgba(255,0,0,0.9)';
+      el.dataset.__diagnostic_outline = '1';
+      // temporarily allow clicks through (undoable by reload) so you can interact:
+      el.style.pointerEvents = 'none';
+      console.log('  -> pointer-events set to "none" and red outline applied (temporary)');
+    });
+    console.groupEnd();
+  }
+
+  console.log('If you see outlines, try interacting with the page now. To undo the temporary changes, reload the page.');
+})();
+</script>
 </body>
 </html>
