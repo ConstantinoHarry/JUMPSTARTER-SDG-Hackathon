@@ -144,7 +144,7 @@ function handleLogin(e) {
             
             // Redirect to main page after short delay (from login_page -> root)
             setTimeout(() => {
-                window.location.href = '/index.html';
+                window.location.href = '../index.html';
             }, 1500);
         } else {
             showFormMessage('Invalid email or password', 'error');
@@ -217,7 +217,7 @@ function handleSignup(e) {
             
             // Redirect to main page (from signup in login_page -> root index)
             setTimeout(() => {
-                window.location.href = '/index.html';
+                window.location.href = '../index.html';
             }, 1500);
         } else {
             showFormMessage('Email already exists. Please try logging in instead.', 'error');
