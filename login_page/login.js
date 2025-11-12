@@ -419,7 +419,7 @@ function checkExistingSession() {
     const userSession = localStorage.getItem('aiigood_user');
     if (userSession) {
         // If user is already logged in, redirect to main page
-        window.location.href = '/index.html';
+        window.location.href = '../index.html';
     }
 }
 

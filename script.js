@@ -9,6 +9,54 @@ document.addEventListener('DOMContentLoaded', () => {
   removeBlockingOverlays();
 });
 
+// Global error capture to help diagnose initialization errors after redirects (saved to localStorage)
+window.addEventListener('error', function(ev) {
+  try {
+    const payload = {
+      message: ev.message,
+      filename: ev.filename,
+      lineno: ev.lineno,
+      colno: ev.colno,
+      stack: ev.error && ev.error.stack ? ev.error.stack : null,
+      time: new Date().toISOString()
+    };
+    localStorage.setItem('__lastClientError', JSON.stringify(payload));
+    console.error('Captured client error (saved to localStorage __lastClientError):', payload);
+  } catch (e) { /* ignore */ }
+});
+
+window.addEventListener('unhandledrejection', function(ev){
+  try {
+    const payload = {
+      reason: ev.reason && ev.reason.stack ? ev.reason.stack : (ev.reason || String(ev)),
+      time: new Date().toISOString()
+    };
+    localStorage.setItem('__lastClientError', JSON.stringify(payload));
+    console.error('Captured unhandled promise rejection (saved to localStorage __lastClientError):', payload);
+  } catch(e) {}
+});
+
+// If there's a captured error from a prior navigation, show it in console for debugging and remove it afterwards
+try {
+  const prev = localStorage.getItem('__lastClientError');
+  if (prev) {
+    console.warn('Previous client error found (from last navigation):', JSON.parse(prev));
+    // keep it for inspection but also expose on the page briefly
+    // create a small non-blocking banner so user can copy the error if needed
+    document.addEventListener('DOMContentLoaded', ()=>{
+      try {
+        const info = document.createElement('div');
+        info.id = '__clientErrorBanner';
+        info.textContent = 'Client error detected during last load — open DevTools Console and check `__lastClientError` in localStorage.';
+        Object.assign(info.style, { position: 'fixed', bottom: '1rem', left: '1rem', background: '#f59e0b', color: '#111', padding: '0.5rem 0.9rem', borderRadius: '6px', zIndex: 13000, fontWeight: '600' });
+        document.body.appendChild(info);
+        setTimeout(()=>{ try{ const el=document.getElementById('__clientErrorBanner'); if(el) el.remove(); }catch(e){} }, 7000);
+      } catch(e){}
+    });
+    // keep the key so user/developer can inspect, do not delete automatically
+  }
+} catch(e){}
+
 /* THEME */
 function initTheme() {
   const saved = localStorage.getItem('theme') || 'light';
@@ -198,10 +246,42 @@ function bindLogout() {
 
 function logout() {
   try {
-    localStorage.removeItem('aiigood_user');
+    // Remove session and app-specific data but preserve user preferences like theme
+    const keysToRemove = [
+      'aiigood_user',
+      'aiigood_family_circle',
+      'aiigood_family_invitations',
+      'aiigood_family_checkins',
+      'aiigood_journal',
+      'aiigood_tasks'
+    ];
+    keysToRemove.forEach(k => {
+      try { localStorage.removeItem(k); } catch(e){}
+    });
   } catch (e) {
     console.warn('Failed to remove session:', e);
   }
+  // Give a tiny visual cue then redirect to login page
+  try {
+    const notice = document.createElement('div');
+    notice.textContent = 'Logged out. Redirecting to login…';
+    Object.assign(notice.style, {
+      position: 'fixed',
+      top: '1rem',
+      right: '1rem',
+      padding: '0.5rem 0.9rem',
+      background: '#111',
+      color: '#fff',
+      borderRadius: '6px',
+      zIndex: 12000,
+      fontWeight: 600
+    });
+    document.body.appendChild(notice);
+    setTimeout(() => {
+      try { if (notice.parentNode) notice.parentNode.removeChild(notice); } catch(e){}
+    }, 1200);
+  } catch (e) {}
+
   // Redirect to login page
   window.location.href = '/login_page/login.html';
 }

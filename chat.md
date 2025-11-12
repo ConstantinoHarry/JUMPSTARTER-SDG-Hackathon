@@ -3,8 +3,13 @@
 ## AI Interaction Overview
 
 **AI Tools Used:**
+<<<<<<< HEAD
 - <img src="https://raw.githubusercontent.com/deepseek-ai/DeepSeek-V3/main/assets/logo.png" width="20" height="20" alt="DeepSeek"> **DeepSeek** - Advanced reasoning and technical architecture
 - <img src="https://raw.githubusercontent.com/openai/openai-cookbook/main/apps/file-q-and-a/app/opengraph-image.png" width="20" height="20" alt="OpenAI"> **OpenAI ChatGPT** - Code generation and creative brainstorming
+=======
+- <img src="https://raw.githubusercontent.com/deepseek-ai/DeepSeek-LLM/main/images/deepseek-logo.png" width="20" height="20" alt="DeepSeek"> **DeepSeek** - Advanced reasoning and technical architecturex
+- <img src="https://raw.githubusercontent.com/openai/openai-cli/main/docs/static/img/icon.png" width="20" height="20" alt="OpenAI"> **OpenAI ChatGPT** - Code generation and creative brainstorming
+>>>>>>> 5d4115f (fix: correct typo in DeepSeek description)
 - **GitHub Copilot** - Code completion and suggestions
 
 **Role:** Full-stack development partnership from concept to production-ready implementation
